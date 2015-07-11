@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+    <h2>Tracked Documents</h2>
+    <div>
+        <button class="uk-button uk-button-primary"><span class="uk-icon uk-icon-plus"></span> Add Document</button>
+    </div>
+    <dl class="uk-description-list-line wtd-document-list">
+    {% for d in docs %}
+        <dt><a href="{% url 'web_document' d.web_document_id %}">{{ d.title }}</a></dt>
+        <dd>
+            {{ d.url }}<br />
+            Last Modified: {% if d.http_last_modified %}{{ d.http_last_modified }}{% else %}{{ d.modified }}{% endif %}
+        </dd>
+    {% endfor %}
+    </dl>
+{% endblock %}

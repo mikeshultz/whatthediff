@@ -1,9 +1,22 @@
+{% extends "base.html" %}
 {% block body %}
-<div>
-    <h2>{{ document.title }}</h2>
-    <div>{% if docuemnt.http_last_modified %}{{ docuemnt.http_last_modified }}{% else %}{{ document.modified }}{% endif %} - {{ document.url }}</div>
-</div>
+    <article class="uk-article">
+        <h2 class="uk-article-title">{{ document.title }}</h2>
+        <div class="uk-article-meta">{% if docuemnt.http_last_modified %}{{ docuemnt.http_last_modified }}{% else %}{{ document.modified }}{% endif %} - {{ document.url }}</div>
 
-<div>{{ latest.0.body|linebreaks }}</div>
-<div><em>This document has been stripped of all formatting and may appear different from the original.</em></div>
+        <div class="uk-panel uk-panel-box wtd-versions-panel">
+            <h3 class="uk-panel-title">Versions</h3>
+            <ul>
+            {% for b in bodies %}
+                <li>{{ b.created }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+
+        {{ latest.body|linebreaks }}
+
+        <div><em>This document has been stripped of all formatting and may appear different from the original.</em></div>
+
+    </article>
+
 {% endblock %}
