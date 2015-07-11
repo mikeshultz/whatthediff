@@ -58,6 +58,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'whatthediff/templates',
+            'whatthedoc/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

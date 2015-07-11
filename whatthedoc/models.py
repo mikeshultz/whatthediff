@@ -31,7 +31,7 @@ def create_web_document(sender, instance, created, **kwargs):
     
 class WebDocumentBody(models.Model):
     document_body_id = models.AutoField(primary_key=True)
-    web_document = models.ForeignKey(WebDocument, null=False)
+    web_document = models.ForeignKey(WebDocument, null=False, related_name='bodies')
     body = models.TextField()
     body_hash = models.CharField(unique=True, max_length=32)
 
@@ -61,7 +61,7 @@ def create_web_document_body(sender, instance, created, **kwargs):
             instance.web_document.title = http_doc.title
         instance.web_document.http_last_modified = last_mod
         instance.web_document.save()
-        
+
         instance.body = body
         instance.body_hash = body_hash
 
