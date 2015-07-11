@@ -49,17 +49,19 @@ def create_web_document_body(sender, instance, created, **kwargs):
     "Need to handle some things when we first create a document."
     if created: 
         http_doc = FetchDocument(instance.web_document.url)
-        last_mod = datetime.strptime(http_doc.response.getheader('Last-Modified'), '%a, %d %b %Y %H:%M:%S GMT')
         
         # make md5 hash of body
         m = hashlib.md5()
         body = http_doc._soup.get_text()
+        print('Body: ', body.encode('utf-8'))
         m.update(bytes(body, 'utf-8'))
-        body_hash = m.digest().decode('utf-16')
+        body_hash = m.hexdigest()
 
         if not instance.web_document.title:
             instance.web_document.title = http_doc.title
-        instance.web_document.http_last_modified = last_mod
+        if http_doc.response.getheader('Last-Modified'):
+            last_mod = datetime.strptime(http_doc.response.getheader('Last-Modified'), '%a, %d %b %Y %H:%M:%S GMT')
+            instance.web_document.http_last_modified = last_mod
         instance.web_document.save()
 
         instance.body = body
