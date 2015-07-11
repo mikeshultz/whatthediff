@@ -56,7 +56,9 @@ ROOT_URLCONF = 'whatthediff.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'whatthediff/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
