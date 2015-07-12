@@ -52,9 +52,9 @@ def create_web_document_body(sender, instance, created, **kwargs):
         
         # make md5 hash of body
         m = hashlib.md5()
-        body = http_doc._soup.get_text()
-        print('Body: ', body.encode('utf-8'))
-        m.update(bytes(body, 'utf-8'))
+        #body = http_doc._soup.get_text()
+        #print('body: ', http_doc.body.encode('utf-8'))
+        m.update(bytes(http_doc.body, 'utf-8'))
         body_hash = m.hexdigest()
 
         if not instance.web_document.title:
@@ -64,7 +64,7 @@ def create_web_document_body(sender, instance, created, **kwargs):
             instance.web_document.http_last_modified = last_mod
         instance.web_document.save()
 
-        instance.body = body
+        instance.body = http_doc.body.encode('utf-8')
         instance.body_hash = body_hash
 
         instance.save()

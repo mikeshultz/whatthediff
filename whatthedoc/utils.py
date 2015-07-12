@@ -1,4 +1,5 @@
 import urllib.request
+import html2text
 from bs4 import BeautifulSoup
 
 class FetchDocument(object):
@@ -18,14 +19,16 @@ class FetchDocument(object):
         "Make the http request and store pertinent information"
 
         self.response = urllib.request.urlopen(self.url)
-        self._soup = BeautifulSoup(self.response.read(), 'html.parser')
+        self._raw = self.response.read().decode('utf-8')
+        self._soup = BeautifulSoup(self._raw, 'html.parser')
+        
+        # TODO: should set base url to the domain of self.url
+        self.body = html2text.html2text(self._raw)
 
-        #print(response.read())
-        #self.headers = response.getheaders()
-        #print(self.headers)
-        self.body = self.response.read()
-
-        self.title = self._soup.title.string
+        try:
+            self.title = self._soup.title.string
+        except AttributeError: 
+            self.title = self.url
 
     @property
     def title(self):

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load markdown_deux_tags %}
 {% block body %}
     <article class="uk-article">
         <h2 class="uk-article-title">{{ document.title }}</h2>
@@ -13,7 +14,7 @@
             </ul>
         </div>
 
-        {{ latest.body|linebreaks }}
+        {{ latest.body|safe|markdown }}
 
         <div><em>This document has been stripped of all formatting and may appear different from the original.</em></div>
 
