@@ -27,6 +27,39 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/whatthediff.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'whatthedoc': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'whatthediff': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'pagediff': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 # Application definition
 
@@ -61,6 +94,7 @@ TEMPLATES = [
         'DIRS': [
             'whatthediff/templates',
             'whatthedoc/templates',
+            'pagediff/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

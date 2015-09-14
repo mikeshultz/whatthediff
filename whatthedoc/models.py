@@ -3,9 +3,14 @@ from datetime import datetime
 
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
-from django.db import models
-from django.db.models.signals import post_save
+from django.db import models, IntegrityError
+from django.db.models.signals import post_save, pre_save
 from whatthedoc.utils import FetchDocument
+
+import logging
+logger = logging.getLogger(__name__)
+
+class WebDocumentDuplicate(IntegrityError): pass
 
 class WebDocument(models.Model):
     web_document_id = models.AutoField(primary_key=True)
@@ -44,12 +49,14 @@ class WebDocumentBody(models.Model):
     def __unicode__(self):
         pass
 
-@receiver(post_save, sender=WebDocumentBody)
-def create_web_document_body(sender, instance, created, **kwargs):
+@receiver(pre_save, sender=WebDocumentBody)
+def create_web_document_body(sender, instance, **kwargs):
     "Need to handle some things when we first create a document."
-    if created: 
-        http_doc = FetchDocument(instance.web_document.url)
-        
+
+    http_doc = FetchDocument(instance.web_document.url)
+    #logger.debug('whatthedoc.models:55: Body: %s' % http_doc.body)
+    
+    if http_doc.body:
         # make md5 hash of body
         m = hashlib.md5()
         #body = http_doc._soup.get_text()
@@ -57,15 +64,31 @@ def create_web_document_body(sender, instance, created, **kwargs):
         m.update(bytes(http_doc.body, 'utf-8'))
         body_hash = m.hexdigest()
 
-        if not instance.web_document.title:
-            instance.web_document.title = http_doc.title
-        if http_doc.response.getheader('Last-Modified'):
-            last_mod = datetime.strptime(http_doc.response.getheader('Last-Modified'), '%a, %d %b %Y %H:%M:%S GMT')
-            instance.web_document.http_last_modified = last_mod
-        instance.web_document.save()
+        logger.debug('whatthedoc.models:64: body_hash: %s' % body_hash)
 
-        instance.body = http_doc.body.encode('utf-8')
-        instance.body_hash = body_hash
+        if body_hash:
+            matches = WebDocumentBody.objects.filter(body_hash = body_hash).count()
+            logger.debug('whatthedoc.models:68: matches: %s' % matches)
+            if matches == 0:
 
-        instance.save()
+                if not instance.web_document.title:
+                    instance.web_document.title = http_doc.title
+                if http_doc.response.getheader('Last-Modified'):
+                    last_mod = datetime.strptime(http_doc.response.getheader('Last-Modified'), '%a, %d %b %Y %H:%M:%S GMT')
+                    instance.web_document.http_last_modified = last_mod
+
+                instance.body = http_doc.body.encode('utf-8')
+                instance.body_hash = body_hash
+
+                #instance.web_document.save()
+
+                # I don't think this is necessary(or wanted) in pre_save
+                #instance.save()
+
+            else:
+                logger.info('whatthedoc.models:86: Document has not been changed.')
+                raise WebDocumentDuplicate('Document has not been changed because we already have it in the database.')
+        else:
+            logger.error('whatthedoc.models:88: Document could not be hashed.')
+            raise ValueError('Document could not be hashed.  May be empty.')
     
