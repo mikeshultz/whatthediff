@@ -1,6 +1,7 @@
 import hashlib
 from datetime import datetime
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 from django.db import models, IntegrityError
@@ -28,10 +29,15 @@ class WebDocument(models.Model):
     def __unicode__(self):
         return self.url
 
+    def get_absolute_url(self):
+        return reverse('whatthedoc.views.web_document', args=[str(self.pk)])
+
 @receiver(post_save, sender=WebDocument)
 def create_web_document(sender, instance, created, **kwargs):
     "Need to handle some things when we first create a document."
     if created: 
+        if not instance.title:
+            instance.title = instance.url
         WebDocumentBody.objects.create(web_document = instance)
     
 class WebDocumentBody(models.Model):
@@ -73,9 +79,13 @@ def create_web_document_body(sender, instance, **kwargs):
 
                 if not instance.web_document.title:
                     instance.web_document.title = http_doc.title
+
                 if http_doc.response.getheader('Last-Modified'):
                     last_mod = datetime.strptime(http_doc.response.getheader('Last-Modified'), '%a, %d %b %Y %H:%M:%S GMT')
                     instance.web_document.http_last_modified = last_mod
+                    instance.web_document.modified = datetime.now()
+                else:
+                    instance.web_document.modified = datetime.now()
 
                 instance.body = http_doc.body.encode('utf-8')
                 instance.body_hash = body_hash

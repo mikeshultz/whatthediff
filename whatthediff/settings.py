@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'markdown_deux',
     'whatthediff', 
     'whatthedoc',
+    'pagediff',
 )
 
 MIDDLEWARE_CLASSES = (

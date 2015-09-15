@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load markdown_deux_tags difflib %}
+{% block body %}
+    <article class="uk-article">
+        <h2 class="uk-article-title">{{ document_body1.document.title }}</h2>
+        <div class="uk-article-meta">{% if document_body1.docuemnt.http_last_modified %}{{ document_body1.docuemnt.http_last_modified }}{% else %}{{ document_body1.document.modified }}{% endif %} - {{ document_body1.document.url }}</div>
+
+        <dif id="thediff">
+        {% for l in diff %}
+            {% if not l|isjunk %}
+            <div class="diffline {% if l.0 == '-' %}removed{% endif %}{% if l.0 == '+' %}added{% endif %}{% if l.0 == '@' %}note{% endif %}">{{ l|markdown }}</div>
+            {% endif %}
+        {% endfor %}
+        </dif>
+
+        {% comment %}{{ document_body1.body|safe|markdown }}{% endcomment %}
+
+        <div><em>This document has been stripped of all formatting and may appear different from the original.</em></div>
+
+    </article>
+
+{% endblock %}

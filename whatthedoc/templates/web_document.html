@@ -9,12 +9,20 @@
             <h3 class="uk-panel-title">Versions</h3>
             <ul>
             {% for b in bodies %}
-                <li>{{ b.created }}</li>
+                <li>
+                    {% if revision.document_body_id != b.document_body_id %}<a href="{% url 'web_document' document.web_document_id %}?document_body_id={{ b.document_body_id }}">{% endif %}
+                    {{ b.created }}
+                    {% if revision.document_body_id != b.document_body_id %}</a>{% endif %}
+
+                    {% if revision.document_body_id != b.document_body_id %}
+                        [ <a href="{% url 'diff_web_document' revision.document_body_id b.document_body_id %}">diff</a> ]
+                    {% endif %}
+                </li>
             {% endfor %}
             </ul>
         </div>
 
-        {{ latest.body|safe|markdown }}
+        {{ revision.body|safe|markdown }}
 
         <div><em>This document has been stripped of all formatting and may appear different from the original.</em></div>
 

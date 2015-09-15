@@ -2,7 +2,7 @@
 {% block body %}
     <h2>Tracked Documents</h2>
     <div>
-        <button class="uk-button uk-button-primary"><span class="uk-icon uk-icon-plus"></span> Add Document</button>
+        <button class="uk-button uk-button-primary" data-uk-modal="{target:'#add-document'}"><span class="uk-icon uk-icon-plus"></span> Add Document</button>
     </div>
     <dl class="uk-description-list-line wtd-document-list">
     {% for d in docs %}
@@ -13,4 +13,18 @@
         </dd>
     {% endfor %}
     </dl>
+    <!--
+    <div id="add-document" class="uk-modal">
+        <div class="uk-modal-dialog">
+            <a class="uk-modal-close uk-close"></a>
+            <h3>Add Document</h3>
+            <form class="uk-form-horizontal">
+                <div class="uk-form-row"><input class="uk-form-large" type="text" placeholder="http://domain.example/page.html"></div>
+                <div class="uk-form-row"><input class="uk-form-large" type="text" placeholder="Welcome to My Page!"></div>
+                <button class="uk-button">...</button>
+                <label><input type="checkbox"> ...</label>
+            </form>
+        </div>
+    </div>
+    //-->
 {% endblock %}

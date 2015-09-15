@@ -1,3 +1,5 @@
+.hide { display: none; }
+
 #main-container.major-container {
     margin-top: 20px !important;
     margin-bottom: 20px !important;
@@ -18,4 +20,27 @@
 dl.wtd-document-list {}
 dl.wtd-document-list dt {
     font-size: 150%;
+}
+
+#add-document input {
+    min-width: 300px;
+}
+
+#thediff {}
+.diffline {
+    margin: 0 0 3px;
+}
+.diffline:nth-child(even) {
+    background: #F8F8F8;
+}
+.diffline * { margin: 0; }
+.diffline.added {
+    color: rgba(37,199,82,1);
+}
+.diffline.removed {
+    color: rgba(202,39,45,0.25);
+    text-decoration: line-through;
+}
+.diffline.note {
+    color: rgba(161,161,161,0.75);
 }
