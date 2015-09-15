@@ -22,6 +22,12 @@ dl.wtd-document-list dt {
     font-size: 150%;
 }
 
+#login-form {
+    text-align: right;
+    float: right;
+    margin-right: 10px;
+}
+
 #add-document input {
     min-width: 300px;
 }
