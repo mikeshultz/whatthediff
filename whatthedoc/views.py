@@ -15,8 +15,6 @@ def new_web_document(request):
 
         form = WebDocumentForm(request.POST)
         if form.is_valid():
-            #doc = WebDocument.object.create(url=url, title=title)
-            #doc.save()
             form.save()
             log.info('whatthedoc.views:21: Redirecting to %s.' % form.instance.get_absolute_url())
             return redirect(form.instance.get_absolute_url())
