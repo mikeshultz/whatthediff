@@ -15,28 +15,30 @@ def loginyo(request):
     """ Simple user login """
 
     error = None
-    username = request.POST.get('username')
+    email = request.POST.get('email')
     password = request.POST.get('password')
 
-    if username and password:
+    if request.POST:
 
-        user = authenticate(username=username, password=password)
+        if email and password:
 
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return redirect('home')
+            user = authenticate(email=email, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    error = "The account has been disabled!  Please <a href=\"{% url 'contact' %}\">contact us for help resolving this issue."
+                    log.info('whatthediff.views:27: User login attempt for %s shows user is disabled.' % email)
             else:
-                error = "The password is valid, but the account has been disabled!"
-                log.info('whatthediff.views:27: User login attempt for %s shows user is disabled.' % username)
+                error = "The E-mail and/or password are incorrect."
+                log.info('whatthediff.views:30: Failed login attempt for %s' % email)
+
         else:
-            error = "The username and/or password are incorrect."
-            log.info('whatthediff.views:30: Failed login attempt for %s' % username)
+            error = "You must provide an E-mail address and password."
 
-    else:
-        error = "You must provide a username or E-mail and password."
-
-    return render_to_response("login.html", RequestContext(request, {'username': username, 'error': error, }))
+    return render_to_response("login.html", RequestContext(request, {'email': email, 'error': error, }))
 
 def logoutyo(request):
     """ Terminate a session """

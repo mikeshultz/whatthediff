@@ -2,17 +2,33 @@
 {% block body %}
     <article class="uk-article">
         <h2 class="uk-article-title">Log In</h2>
-        <div class="uk-article-meta">...</div>
+        <div class="uk-article-meta">Please log in to use the features of WhatTheDiff</div>
 
-        <div id="login-form-big">
-            <form class="uk-form" action="{% url 'login' %}" method="post">
-                <div class="uk-form-row"><input class="uk-form-large" type="text" name="username" placeholder="Username"{% if username %} value="{{ username }}"{% endif %}></div>
-                <div class="uk-form-row"><input class="uk-form-large" type="password" name="password" placeholder="Password"></div>
-                <div class="uk-form-row">
-                    {% csrf_token %}
-                    <button class="uk-button uk-button-primary">Login</button>
-                </div>
-            </form>
+        <hr class="uk-article-divider">
+
+        <div class="uk-grid">
+
+            <div id="login-form-big" class="uk-width-1-2">
+                <form class="uk-form uk-form-stacked" action="{% url 'login' %}" method="post">
+                    <div class="uk-form-row">
+                        <label form="email">E-mail Address</label>
+                        <input class="uk-form-large uk-width-1-1" type="text" name="email" placeholder="john@example.com"{% if email %} value="{{ email }}"{% endif %}>
+                    </div>
+                    <div class="uk-form-row">
+                        <label form="password">Password</label>
+                        <input class="uk-form-large uk-width-1-1" type="password" name="password" placeholder="password">
+                    </div>
+                    <div class="uk-form-row">
+                        {% csrf_token %}
+                        <button class="uk-button uk-button-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="form-help" class="uk-width-1-2">
+                {% if error %}<div class="uk-alert uk-alert-danger">{{ error }}</div>{% endif %}
+            </div>
+
         </div>
 
     </article>
