@@ -31,20 +31,23 @@
             <div class="uk-navbar-brand uk-navbar-center uk-visible-small">Brand</div>
 
             <div id="login-form" class="hide">
-                <form class="uk-form" action="{% url 'new_web_document' %}" method="post">
+                <form class="uk-form" action="{% url 'login' %}" method="post">
                     <input class="uk-form-large" type="text" name="username" placeholder="Username">
-                    <input class="uk-form-large" type="text" name="password" placeholder="Password">
+                    <input class="uk-form-large" type="password" name="password" placeholder="Password">
                     {% csrf_token %}
                     <button class="uk-button uk-button-primary">Login</button>
                 </form>
             </div>
             <div class="uk-navbar-flip">
                 <ul class="uk-navbar-nav">
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Log Out <span class="uk-icon uk-icon-user"></span></a></li>
+                {% else %}
                     <li><a href="#login" onclick="$('#login-form').toggle(); return false;">Log In <span class="uk-icon uk-icon-user"></span></a></li>
+                {% endif %}
                 </ul>
             </div>
         </nav>
-
 {% block body %}Y'all forgot content.{% endblock %}
     </div>
 

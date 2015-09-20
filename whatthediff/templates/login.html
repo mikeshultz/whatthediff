@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block body %}
+    <article class="uk-article">
+        <h2 class="uk-article-title">Log In</h2>
+        <div class="uk-article-meta">...</div>
+
+        <div id="login-form-big">
+            <form class="uk-form" action="{% url 'login' %}" method="post">
+                <div class="uk-form-row"><input class="uk-form-large" type="text" name="username" placeholder="Username"{% if username %} value="{{ username }}"{% endif %}></div>
+                <div class="uk-form-row"><input class="uk-form-large" type="password" name="password" placeholder="Password"></div>
+                <div class="uk-form-row">
+                    {% csrf_token %}
+                    <button class="uk-button uk-button-primary">Login</button>
+                </div>
+            </form>
+        </div>
+
+    </article>
+{% endblock %}

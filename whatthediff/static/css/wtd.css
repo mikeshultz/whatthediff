@@ -27,6 +27,7 @@ dl.wtd-document-list dt {
     float: right;
     margin-right: 10px;
 }
+#login-form-big {}
 
 #add-document input {
     min-width: 300px;

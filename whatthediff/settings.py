@@ -88,6 +88,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'whatthediff.urls'
+AUTH_USER_MODEL = 'whatthediff.WhatTheUser'
 
 TEMPLATES = [
     {

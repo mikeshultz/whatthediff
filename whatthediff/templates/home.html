@@ -1,1 +1,2 @@
-{% block body %}Hello World{% endblock %}
+{% extends "base.html" %}
+{% block body %}Hello {% if request.user %}{{ request.user }}{% else %}World{% endif %}{% endblock %}
