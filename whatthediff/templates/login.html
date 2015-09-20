@@ -20,6 +20,7 @@
                     </div>
                     <div class="uk-form-row">
                         {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}{{ request.POST.next }}">
                         <button class="uk-button uk-button-primary">Login</button>
                     </div>
                 </form>

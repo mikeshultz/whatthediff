@@ -1,5 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 from .models import CollectionUser, WebDocument, WebDocumentBody
 from .forms import WebDocumentForm
@@ -7,6 +8,7 @@ from .forms import WebDocumentForm
 import logging
 log = logging.getLogger(__name__)
 
+@login_required
 def new_web_document(request):
     "Create a new Web Document"
 
@@ -22,6 +24,7 @@ def new_web_document(request):
 
     return render_to_response("new_web_document.html", RequestContext(request, {}))
 
+@login_required
 def web_document(request, web_document_id = None):
     "Display Document"
 
@@ -45,10 +48,11 @@ def web_document(request, web_document_id = None):
         })
     )
 
+@login_required
 def web_document_list(request):
     "Show documents in a list"
 
-    collection_user = CollectionUser.objects.filter(user=request.user)
+    collection_user = CollectionUser.objects.filter(user=request.user.id)
 
     if collection_user:
         docs = []

@@ -1,11 +1,13 @@
 import difflib, logging
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 from whatthedoc.models import WebDocumentBody
 
 log = logging.getLogger(__name__)
 
+@login_required
 def diff_web_document(request, document_body_id1 = None, document_body_id2 = None):
     "Show the diff of two Web Documents"
 

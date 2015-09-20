@@ -14,9 +14,11 @@
                 <li class="uk-active">
                     <a href="/document/">Documents</a>
                 </li>
+            {% if request.user.is_authenticated %}
                 <li>
                     <a href="#add-document" onclick="$('#add-document').toggle(); return false;">Add Document <span class="uk-icon uk-icon-plus"></span></a>
                 </li>
+            {% endif %}
             </ul>
             <div id="add-document" class="hide">
                 <form class="uk-form" action="{% url 'new_web_document' %}" method="post">
