@@ -17,6 +17,16 @@ def new_web_document(request):
 
         form = WebDocumentForm(request.POST)
         if form.is_valid():
+
+            # get the collection for the user to add the document to
+            # for now, we're assuming one election per user
+            #
+            # TODO: Breakout collections a bit more for the user so other
+            #       users can be given access to a collection.
+            collection_user = CollectionUser.objects.filter(user=request.user.id)[0]
+            log.debug('whatthedoc.views:27: Saving a document to collection %s.' % collection_user.collection_id)
+            form.instance.collection = collection_user.collection
+
             form.user = request.user
             form.save()
             log.info('whatthedoc.views:21: Redirecting to %s.' % form.instance.get_absolute_url())
