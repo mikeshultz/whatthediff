@@ -1,4 +1,14 @@
 .hide { display: none; }
+.uk-form-horizontal-pad { 
+    display: block; 
+    float: left;
+    clear: left; 
+    margin: 0; 
+    width: 8em; 
+    content: "&nbsp;";
+}
+.uk-form-horizontal-pad::after {
+}
 
 #main-container.major-container {
     margin-top: 20px !important;
@@ -20,6 +30,14 @@
 dl.wtd-document-list {}
 dl.wtd-document-list dt {
     font-size: 150%;
+}
+
+#registration-form {}
+#registration-form label {
+    width: 8em;
+}
+#registration-form input {
+    width: 15em;
 }
 
 #login-form {
