@@ -29,6 +29,9 @@ dl.wtd-document-list dt {
 }
 #login-form-big {}
 
+#add-document {
+    float: left;
+}
 #add-document input {
     min-width: 300px;
 }
