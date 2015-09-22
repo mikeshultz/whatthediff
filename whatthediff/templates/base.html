@@ -9,12 +9,12 @@
 <body>
     <div id="main-container" class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom major-container">
         <nav class="uk-navbar uk-margin-large-bottom">
-            <a class="uk-navbar-brand uk-hidden-small" href="//whatthediff.com/">WTD</a>
+            <a class="uk-navbar-brand uk-hidden-small" href="//whatthediff.com/">{% if request.user.is_authenticated %}WTD{% else %}WhatTheDiff?{% endif %}</a>
             <ul class="uk-navbar-nav uk-hidden-small">
+            {% if request.user.is_authenticated %}
                 <li class="uk-active">
                     <a href="/document/">Documents</a>
                 </li>
-            {% if request.user.is_authenticated %}
                 <li>
                     <a href="#add-document" onclick="$('#add-document').toggle(); return false;">Add Document <span class="uk-icon uk-icon-plus"></span></a>
                 </li>
