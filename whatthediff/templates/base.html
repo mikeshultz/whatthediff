@@ -34,7 +34,7 @@
 
             <div id="login-form" class="hide">
                 <form class="uk-form" action="{% url 'login' %}" method="post">
-                    <input class="uk-form-large" type="text" name="username" placeholder="Username">
+                    <input class="uk-form-large" type="text" name="email" placeholder="john@example.com"{% if email %} value="{{ email }}"{% endif %}>
                     <input class="uk-form-large" type="password" name="password" placeholder="Password">
                     {% csrf_token %}
                     <button class="uk-button uk-button-primary">Login</button>
