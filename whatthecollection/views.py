@@ -16,7 +16,8 @@ def collection_list(request):
         collection = Collection.objects.create()
         collection_user = CollectionUser.objects.create(
             collection = collection,
-            user = request.user
+            user = request.user,
+            default = True
         )
 
     return render_to_response("collection_list.html", 

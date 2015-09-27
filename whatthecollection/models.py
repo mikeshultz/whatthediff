@@ -18,3 +18,4 @@ class CollectionUser(models.Model):
     collection_user_id = models.AutoField(primary_key=True)
     collection = models.ForeignKey(Collection)
     user = models.ForeignKey(WhatTheUser)
+    default = models.BooleanField(default=False)
