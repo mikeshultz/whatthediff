@@ -12,8 +12,11 @@
             <a class="uk-navbar-brand uk-hidden-small" href="//whatthediff.com/">{% if request.user.is_authenticated %}WTD{% else %}WhatTheDiff?{% endif %}</a>
             <ul class="uk-navbar-nav uk-hidden-small">
             {% if request.user.is_authenticated %}
-                <li class="uk-active">
-                    <a href="/document/">Documents</a>
+                <li{% if collection_active %} class="uk-active"{% endif %}>
+                    <a href="{% url 'collection_list' %}">Collections</a>
+                </li>
+                <li{% if document_active %} class="uk-active"{% endif %}>
+                    <a href="{% url 'web_document_list' %}">Documents</a>
                 </li>
                 <li>
                     <a href="#add-document" onclick="$('#add-document').toggle(); return false;">Add Document <span class="uk-icon uk-icon-plus"></span></a>

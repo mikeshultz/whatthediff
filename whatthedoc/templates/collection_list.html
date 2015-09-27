@@ -1,25 +1,19 @@
 {% extends "base.html" %}
 {% block body %}
     {% now "Ymd" as today %}
-    <h2>Tracked Documents</h2>
-    {% comment %}
-    <!-- It's in the header, this is kind of unnecessary -->
+    <h2>Collections</h2>
     <div>
-        <button class="uk-button uk-button-primary" data-uk-modal="{target:'#add-document'}"><span class="uk-icon uk-icon-plus"></span> Add Document</button>
+        <button class="uk-button uk-button-primary" data-uk-modal="{target:'#add-collection'}"><span class="uk-icon uk-icon-plus"></span> Add Collection</button>
     </div>
-    {% endcomment %}
     <dl class="uk-description-list-line major-list">
-    {% for d in docs %}
-        <dt{% if today == d.latest|date:"Ymd" %} class="updated"{% endif %}>
+    {% for c in collection_user %}
+        <dt>
             <div class="clearfix marker"></div>
-            <a href="{% url 'web_document' d.web_document_id %}">
-                {% if d.title %}{{ d.title }}{% else %}<em>[no title]</em>{% endif %}
+            <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
+                {% if c.collection.title %}{{ c.collection.title }}{% else %}Default{% endif %}
             </a>
         </dt>
-        <dd{% if today == d.latest|date:"Ymd" %} class="updated"{% endif %}>
-            {{ d.url }}<br />
-            Last Modified: {% if d.http_last_modified %}{{ d.http_last_modified }}{% else %}{{ d.modified }}{% endif %}
-        </dd>
+        <dd><i>Not implemented.</i></i>
     {% endfor %}
     </dl>
     <!--

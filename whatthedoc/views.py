@@ -2,8 +2,9 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from .models import CollectionUser, WebDocument, WebDocumentBody
+from .models import WebDocument, WebDocumentBody
 from .forms import WebDocumentForm
+from whatthecollection.models import CollectionUser
 
 import logging
 log = logging.getLogger(__name__)
@@ -77,6 +78,7 @@ def web_document_list(request):
 
     return render_to_response("web_document_list.html", 
         RequestContext(request, { 
+            'document_active': True,
             'docs': docs, 
         })
     )

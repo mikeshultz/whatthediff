@@ -8,27 +8,12 @@ from django.db import models, IntegrityError
 from django.db.models.signals import post_save, pre_save
 from whatthedoc.utils import FetchDocument
 from whatthediff.models import WhatTheUser
+from whatthecollection.models import Collection
 
 import logging
 logger = logging.getLogger(__name__)
 
 class WebDocumentDuplicate(IntegrityError): pass
-
-class Collection(models.Model):
-    collection_id = models.AutoField(primary_key=True)
-
-    class Meta:
-        verbose_name = _('Collection')
-        verbose_name_plural = _('Collections')
-
-    def __unicode__(self):
-        pass
-
-class CollectionUser(models.Model):
-    """ Association of a user to a collection """
-    collection_user_id = models.AutoField(primary_key=True)
-    collection = models.ForeignKey(Collection)
-    user = models.ForeignKey(WhatTheUser)
 
 class WebDocument(models.Model):
     web_document_id = models.AutoField(primary_key=True)

@@ -27,11 +27,11 @@
     list-style: none;
 }
 
-dl.wtd-document-list {}
-dl.wtd-document-list dt {
+dl.major-list {}
+dl.major-list dt {
     font-size: 150%;
 }
-dl.wtd-document-list dt.updated .marker {
+dl.major-list dt.updated .marker {
     display: block;
     float: left;
     margin: 0 10px 0 0;
