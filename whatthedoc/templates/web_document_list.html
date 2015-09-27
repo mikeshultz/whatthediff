@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 {% block body %}
+    {% now "Ymd" as today %}
     <h2>Tracked Documents</h2>
+    {% comment %}
+    <!-- It's in the header, this is kind of unnecessary -->
     <div>
         <button class="uk-button uk-button-primary" data-uk-modal="{target:'#add-document'}"><span class="uk-icon uk-icon-plus"></span> Add Document</button>
     </div>
+    {% endcomment %}
     <dl class="uk-description-list-line wtd-document-list">
     {% for d in docs %}
-        <dt><a href="{% url 'web_document' d.web_document_id %}">{{ d.title }}</a></dt>
-        <dd>
+        <dt{% if today == d.latest|date:"Ymd" %} class="updated"{% endif %}>
+            <div class="clearfix marker"></div>
+            <a href="{% url 'web_document' d.web_document_id %}">
+                {% if d.title %}{{ d.title }}{% else %}<em>[no title]</em>{% endif %}
+            </a>
+        </dt>
+        <dd{% if today == d.latest|date:"Ymd" %} class="updated"{% endif %}>
             {{ d.url }}<br />
             Last Modified: {% if d.http_last_modified %}{{ d.http_last_modified }}{% else %}{{ d.modified }}{% endif %}
         </dd>

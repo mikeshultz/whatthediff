@@ -67,7 +67,11 @@ def web_document_list(request):
     if collection_user:
         docs = []
         for cu in collection_user:
-            docs += WebDocument.objects.filter(collection=cu.collection)
+            docs += WebDocument.objects.extra(
+                select = {
+                    'latest': "SELECT created FROM whatthedoc_webdocumentbody swdb WHERE whatthedoc_webdocument.web_document_id = swdb.web_document_id ORDER BY created DESC LIMIT 1",
+                }
+            ).filter(collection=cu.collection).order_by('-latest')
     else:
         docs = None
 

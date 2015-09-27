@@ -31,6 +31,14 @@ dl.wtd-document-list {}
 dl.wtd-document-list dt {
     font-size: 150%;
 }
+dl.wtd-document-list dt.updated .marker {
+    display: block;
+    float: left;
+    margin: 0 10px 0 0;
+    height: 3em;
+    width: 10px;
+    background: rgba(255, 252, 204, 0.7);
+}
 
 #registration-form {}
 #registration-form label {
