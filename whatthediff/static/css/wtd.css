@@ -31,6 +31,11 @@ dl.major-list {}
 dl.major-list dt {
     font-size: 150%;
 }
+dl.major-list dt button {
+    position: relative;
+    top: -0.3em;
+    margin: 0 0 0 1em;
+}
 dl.major-list dt.updated .marker {
     display: block;
     float: left;

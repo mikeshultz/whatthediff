@@ -3,31 +3,49 @@
     {% now "Ymd" as today %}
     <h2>Collections</h2>
     <div>
-        <button class="uk-button uk-button-primary" data-uk-modal="{target:'#add-collection'}"><span class="uk-icon uk-icon-plus"></span> Add Collection</button>
-    </div>
-    <dl class="uk-description-list-line major-list">
-    {% for c in collection_user %}
-        <dt>
-            <div class="clearfix marker"></div>
-            <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
-                {% if c.collection.title %}{{ c.collection.title }}{% else %}Default{% endif %}
-            </a>
-        </dt>
-        <dd><i>Not implemented.</i></i>
-    {% endfor %}
-    </dl>
-    <!--
-    <div id="add-document" class="uk-modal">
-        <div class="uk-modal-dialog">
-            <a class="uk-modal-close uk-close"></a>
-            <h3>Add Document</h3>
-            <form class="uk-form-horizontal">
-                <div class="uk-form-row"><input class="uk-form-large" type="text" placeholder="http://domain.example/page.html"></div>
-                <div class="uk-form-row"><input class="uk-form-large" type="text" placeholder="Welcome to My Page!"></div>
-                <button class="uk-button">...</button>
-                <label><input type="checkbox"> ...</label>
+        <button class="uk-button uk-button-large uk-button-primary" id="add-collection-button" onclick="$('#add-collection').show(); $('#add-collection-button').hide(); return false;"><span class="uk-icon uk-icon-plus"></span> Add Collection</button>
+        <div id="add-collection" class="hide">
+            <form class="uk-form" method="post" action="{% url 'new_collection' %}">
+                <input class="uk-form-large" name="name" type="text" placeholder="My Collection">
+                {% csrf_token %}
+                <button class="uk-button uk-button-large uk-button-primary">Save <span class="uk-icon-floppy-o"></span></button>
             </form>
         </div>
     </div>
-    //-->
+    <dl class="uk-description-list-line major-list">
+    {% for c in collection_user %}
+        <dt class="uk-margin-top">
+            <div class="clearfix marker"></div>
+            <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
+                {% if c.collection.name %}{{ c.collection.name }}{% else %}Default{% endif %}
+            </a>
+            <button class="uk-button uk-button-mini">Edit <span class="uk-icon uk-icon-pencil"></span></button>
+        </dt>
+        <dd class="uk-margin-top">
+            <form class="uk-form" method="post" action="{% url 'edit_collection_rights' %}">
+                <table class="uk-table uk-table-hover">
+                {% for cu in c.collection.users.all %}
+                    <tr>
+                        <td>{{ cu.user.email }}</td>
+                        <td>
+                            <input type="hidden" name="emaail" value="{{ cu.user.email }}">
+                            <label for="perms" class="uk-margin-left">Permissions: 
+                                <select name="perms" class="uk-margin-left">
+                                    <option>Edit</option>
+                                    <option>Read Only</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+                <div class="uk-button-group">
+                    {% csrf_token %}
+                    <button type="submit" class="uk-button uk-button-primary uk-button-small">Save Rights <span class="uk-icon uk-icon-floppy-o"></span></button>
+                    <button class="uk-button uk-button-small">Add User <span class="uk-icon uk-icon-plus"></span></button>
+                </div>
+            </form>
+        </dd>
+    {% endfor %}
+    </dl>
 {% endblock %}
