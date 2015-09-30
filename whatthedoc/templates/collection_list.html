@@ -29,10 +29,18 @@
     {% for c in collection_user %}
         <dt class="uk-margin-top">
             <div class="clearfix marker"></div>
-            <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
-                {% if c.collection.name %}{{ c.collection.name }}{% else %}Default{% endif %}
-            </a>
-            <button class="uk-button uk-button-mini">Edit <span class="uk-icon uk-icon-pencil"></span></button>
+            <form class="uk-form">
+                <div class="js-show">
+                    <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
+                        {% if c.collection.name %}{{ c.collection.name }}{% else %}Default{% endif %}
+                    </a>
+                    <button class="uk-button uk-button-mini">Edit <span class="uk-icon uk-icon-pencil"></span></button>
+                </div>
+                <div class="js-hide">
+                    <input type="text" class="uk-form-small" name="name" value="{{ c.collection.name }}">
+                    <button type="submit" class="uk-button uk-button-primary uk-button-small">Save</button>
+                </div>
+            </form>
         </dt>
         <dd class="uk-margin-top">
             <form class="uk-form" method="post" action="{% url 'edit_collection_rights' %}">
