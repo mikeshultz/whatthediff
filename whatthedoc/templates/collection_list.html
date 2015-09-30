@@ -57,8 +57,9 @@
                     <button type="submit" class="uk-button uk-button-primary uk-button-small">Save Rights <span class="uk-icon uk-icon-floppy-o"></span></button>
                     <button class="add-user-button uk-button uk-button-small">Add User <span class="uk-icon uk-icon-plus"></span></button>
                     <div class="hide add-user-form">
-                        <form class="uk-form">
-                            <input type="email" class="uk-form-small" placeholder="yourfriend@example.com">
+                        <form class="uk-form" method="post" action="{% url 'add_user_to_collection' %}">
+                            <input type="email" class="uk-form-small" name="email" placeholder="yourfriend@example.com">
+                            <input type="hidden" name="collection_id" value="{{ c.collection_id }}">
                             <button type="submit" class="uk-button uk-button-primary uk-button-small">Add <span class="uk-icon uk-icon-plus"></span></button>
                         </form>
                     </div>

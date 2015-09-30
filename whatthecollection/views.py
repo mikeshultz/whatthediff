@@ -44,7 +44,7 @@ def edit_rights(request):
 
     if request.POST:
         log.error("whatthcollection.views:46: NOT IMPLEMENTED!")
-        raise NotImplementedError
+        raise NotImplementedError('The ability to change rights for users has not yet been added.')
     
     return redirect('collection_list')
 
