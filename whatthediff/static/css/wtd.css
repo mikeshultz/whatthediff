@@ -67,6 +67,12 @@ dl.major-list dt.updated .marker {
     min-width: 250px;
 }
 
+.add-user-form { float: right; }
+.add-user-form input[type=email] {
+    border-radius: 0;
+    width: 15em;
+}
+
 #thediff {}
 .diffline {
     margin: 0 0 3px;

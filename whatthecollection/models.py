@@ -20,3 +20,4 @@ class CollectionUser(models.Model):
     collection = models.ForeignKey(Collection, related_name='users')
     user = models.ForeignKey(WhatTheUser)
     default = models.BooleanField(default=False)
+    can_write = models.BooleanField(default=False)

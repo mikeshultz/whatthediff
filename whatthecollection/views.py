@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from .models import Collection, CollectionUser
-from .forms import CollectionForm
+from .forms import CollectionForm, CollectionUserForm
 
 import logging
 log = logging.getLogger(__name__)
@@ -47,6 +47,63 @@ def edit_rights(request):
         raise NotImplementedError
     
     return redirect('collection_list')
+
+@login_required
+def add_user_to_collection(request):
+    """ Add a user with ro rights to a collection.  Basically what we're
+        doing here is creating a new CollectionUser instance.  All we 
+        need to begin with is an E-mail address.  Then either we can 
+        find an existing user, or a registration token.  The registration
+        token will have this association already handy for when the user
+        finally comes to the site to register.
+    """
+
+    form = CollectionUserForm(request.POST)
+
+    if form.is_valid():
+
+        collection_id = form.cleaned_data.get('collection_id')
+        email = form.cleaned_data.get('email')
+        perms = form.cleaned_data.get('perms', 'ro')
+        
+        # simple rw/ro permissions
+        if perms == 'rw':
+            can_write = True
+        else:
+            can_write = False
+
+        already_has_access = False
+
+        # We need to check and make sure they have write access to this
+        # collection before we allow them to add anyone else.  If not, 
+        # silently fail them.
+        check_cus = CollectionUser.objects.get(user=request.user, collection_id=collection_id, can_write=True)
+        if len(check_cus) == 0:
+            redirect('collection_list')
+
+        if collection_id and email:
+            collection_user = CollectionUser.objects.filter(user__email=email)
+
+            # Let's see if they already have an entry first
+            for cu in collection_user:
+                if cu.collection_id == collection_id:
+                    already_has_access = True
+                    break
+
+            target_user = collection_user[0].user
+
+            if not already_has_access:
+                # user is not assigned, let's make sure they exist
+                if target_user.is_active():
+                    # Well, let's make the assignment
+                    collection = Collection.objects.get(pk=collection_id)
+                    new_cu = CollectionUser.objects.create(user=target_user, collection=collection, can_write=can_write)
+                else:
+                    # TODO: build a token and send out 
+                    raise NotImplementedError('Invitation token generation is not yet implemented.')
+
+    redirect('collection_list')
+
 
 @login_required
 def collection_list(request):

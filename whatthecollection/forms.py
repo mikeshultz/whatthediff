@@ -7,3 +7,10 @@ class CollectionForm(forms.ModelForm):
     class Meta:
         model = Collection
         fields = ['name', ]
+
+class CollectionUserForm(forms.Form):
+    collection_id = forms.IntegerField()
+    email = forms.EmailField()
+    perms = forms.CharField(max_length=2, required=False)
+    
+    

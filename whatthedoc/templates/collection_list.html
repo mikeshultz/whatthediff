@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block jsextra %}
+    <script type="text/javascript">
+        $('.add-user-button').click(function(e) {
+            e.preventDefault();
+            console.log($(this).next('.add-user-form'));
+            if ($(this).next('.add-user-form').css('display') == 'none') {
+                $(this).next('.add-user-form').show(250); 
+            } else {
+                $(this).next('.add-user-form').hide(250);
+            }
+        });
+    </script>
+{% endblock %}
 {% block body %}
     {% now "Ymd" as today %}
     <h2>Collections</h2>
@@ -42,7 +55,13 @@
                 <div class="uk-button-group">
                     {% csrf_token %}
                     <button type="submit" class="uk-button uk-button-primary uk-button-small">Save Rights <span class="uk-icon uk-icon-floppy-o"></span></button>
-                    <button class="uk-button uk-button-small">Add User <span class="uk-icon uk-icon-plus"></span></button>
+                    <button class="add-user-button uk-button uk-button-small">Add User <span class="uk-icon uk-icon-plus"></span></button>
+                    <div class="hide add-user-form">
+                        <form class="uk-form">
+                            <input type="email" class="uk-form-small" placeholder="yourfriend@example.com">
+                            <button type="submit" class="uk-button uk-button-primary uk-button-small">Add <span class="uk-icon uk-icon-plus"></span></button>
+                        </form>
+                    </div>
                 </div>
             </form>
         </dd>
