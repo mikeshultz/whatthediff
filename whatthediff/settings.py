@@ -53,6 +53,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'whatthecollection': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'pagediff': {
             'handlers': ['file'],
             'level': 'DEBUG',

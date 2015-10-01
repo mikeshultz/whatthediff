@@ -44,6 +44,7 @@
                 <div class="js-hide edit-collection-form">
                     <form class="uk-form" method="post" action="{% url 'edit_collection' %}">
                         <input type="text" class="uk-form" name="name" value="{{ c.collection.name }}">
+                        <input type="hidden" name="collection_id" value="{{ c.collection_id }}">
                         {% csrf_token %}
                         <button type="submit" class="uk-button uk-button-primary">Save <span class="uk-icon uk-icon-floppy-o"></span></button>
                     </form>

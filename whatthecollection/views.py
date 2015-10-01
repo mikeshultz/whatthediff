@@ -40,7 +40,7 @@ def new_collection(request):
 
 @login_required
 def edit_rights(request):
-    "Create a new collection"
+    "Edit a collection's rights"
 
     if request.POST:
         log.error("whatthcollection.views:46: NOT IMPLEMENTED!")
@@ -51,10 +51,14 @@ def edit_rights(request):
 @login_required
 def edit_collection(request):
     "Edit a collection"
+    log.info('whatthcollection.views:54: edit_collection()')
 
-    if request.POST:
-        log.error("whatthcollection.views:56: NOT IMPLEMENTED!")
-        raise NotImplementedError("The ability to change a collection's name has not yet been implemented.")
+    if request.POST and request.POST.get('name') and request.POST.get('collection_id'):
+        collection = Collection.objects.get(pk=request.POST.get('collection_id'))
+        form = CollectionForm(request.POST, instance=collection)
+        if form.is_valid():
+            log.debug("whatthcollection.views:60: Changing collection %s's name to %s" % (request.POST.get('collection_id'), request.POST.get('name')))
+            form.save()
     
     return redirect('collection_list')
 
