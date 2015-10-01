@@ -49,6 +49,16 @@ def edit_rights(request):
     return redirect('collection_list')
 
 @login_required
+def edit_collection(request):
+    "Edit a collection"
+
+    if request.POST:
+        log.error("whatthcollection.views:56: NOT IMPLEMENTED!")
+        raise NotImplementedError("The ability to change a collection's name has not yet been implemented.")
+    
+    return redirect('collection_list')
+
+@login_required
 def add_user_to_collection(request):
     """ Add a user with ro rights to a collection.  Basically what we're
         doing here is creating a new CollectionUser instance.  All we 

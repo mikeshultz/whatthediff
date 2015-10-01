@@ -10,6 +10,11 @@
                 $(this).next('.add-user-form').hide(250);
             }
         });
+        $('.edit-collection-button').click(function(e) {
+            e.preventDefault();
+            $(this).parent().hide(250, 'linear');
+            $(this).parent().next('.edit-collection-form').show(250, 'linear'); 
+        });
     </script>
 {% endblock %}
 {% block body %}
@@ -29,18 +34,21 @@
     {% for c in collection_user %}
         <dt class="uk-margin-top">
             <div class="clearfix marker"></div>
-            <form class="uk-form">
-                <div class="js-show">
+            <div class="js-show">
+                <div class="collection-name">
                     <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
                         {% if c.collection.name %}{{ c.collection.name }}{% else %}Default{% endif %}
                     </a>
-                    <button class="uk-button uk-button-mini">Edit <span class="uk-icon uk-icon-pencil"></span></button>
+                    <button class="uk-button uk-button-mini edit-collection-button">Edit <span class="uk-icon uk-icon-pencil"></span></button>
                 </div>
-                <div class="js-hide">
-                    <input type="text" class="uk-form-small" name="name" value="{{ c.collection.name }}">
-                    <button type="submit" class="uk-button uk-button-primary uk-button-small">Save</button>
+                <div class="js-hide edit-collection-form">
+                    <form class="uk-form" method="post" action="{% url 'edit_collection' %}">
+                        <input type="text" class="uk-form" name="name" value="{{ c.collection.name }}">
+                        {% csrf_token %}
+                        <button type="submit" class="uk-button uk-button-primary">Save <span class="uk-icon uk-icon-floppy-o"></span></button>
+                    </form>
                 </div>
-            </form>
+            </div>
         </dt>
         <dd class="uk-margin-top">
             <form class="uk-form" method="post" action="{% url 'edit_collection_rights' %}">

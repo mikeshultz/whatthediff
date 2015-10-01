@@ -73,6 +73,18 @@ dl.major-list dt.updated .marker {
     width: 15em;
 }
 
+.edit-collection-form { display: inline-block; }
+.edit-collection-form input[type=text] { 
+    border-radius: 0;
+    width: 15em;
+}
+.edit-collection-form button { 
+    border-radius: 0 0.5em 0.5em 0;
+    position: relative;
+    left: -1.5em;
+    top: 0em !important;
+}
+
 #thediff {}
 .diffline {
     margin: 0 0 3px;
