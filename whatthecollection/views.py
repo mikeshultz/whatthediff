@@ -91,7 +91,7 @@ def add_user_to_collection(request):
         # We need to check and make sure they have write access to this
         # collection before we allow them to add anyone else.  If not, 
         # silently fail them.
-        check_cus = CollectionUser.objects.get(user=request.user, collection_id=collection_id, can_write=True)
+        check_cus = CollectionUser.objects.filter(user=request.user, collection_id=collection_id, can_write=True)
         if len(check_cus) == 0:
             redirect('collection_list')
 
@@ -108,7 +108,7 @@ def add_user_to_collection(request):
 
             if not already_has_access:
                 # user is not assigned, let's make sure they exist
-                if target_user.is_active():
+                if target_user.is_active:
                     # Well, let's make the assignment
                     collection = Collection.objects.get(pk=collection_id)
                     new_cu = CollectionUser.objects.create(user=target_user, collection=collection, can_write=can_write)
@@ -116,7 +116,7 @@ def add_user_to_collection(request):
                     # TODO: build a token and send out 
                     raise NotImplementedError('Invitation token generation is not yet implemented.')
 
-    redirect('collection_list')
+    return redirect('collection_list')
 
 
 @login_required
