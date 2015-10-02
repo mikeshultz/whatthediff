@@ -134,6 +134,7 @@ def collection_list(request):
             user = request.user,
             default = True
         )
+        collection_user = [collection_user, ]
 
     return render_to_response("collection_list.html", 
         RequestContext(request, { 

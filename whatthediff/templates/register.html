@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+    <article class="uk-article">
+        <h2 class="uk-article-title">Register</h2>
+        <div class="uk-article-meta">Please register to use the features of WhatTheDiff</div>
+
+        <hr class="uk-article-divider">
+
+        <div class="uk-grid">
+
+            {% include "registration_form.html" %}
+
+            <div id="form-help" class="uk-width-1-2">
+                {% if error %}<div class="uk-alert uk-alert-danger">{{ error }}</div>{% endif %}
+            </div>
+
+        </div>
+
+    </article>
+{% endblock %}

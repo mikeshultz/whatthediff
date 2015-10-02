@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.models import User
 from .models import WhatTheUser
+from .forms import RegistrationForm
 
 import logging
 log = logging.getLogger(__name__)
@@ -54,3 +55,39 @@ def user(request, user = None):
 
     # TODO: will want settings here eventually, but let's just go home for now
     return redirect('login')
+
+def register(request):
+    """ Register a user """
+
+    if request.POST:
+        log.info('whatthediff.views:62: register()')
+
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            log.info('whatthediff.views:67: Form is valid.')
+            form.save()
+
+            # Let's make it easy(for now, anyway), and log them right in.
+            log.info('whatthediff.views:71: Logging the user in')
+
+            new_user = authenticate(username=request.POST['email'], password=request.POST.get('password1'))
+            login(request, new_user)
+
+            return redirect('home')
+
+            # TODO: Send activation E-mail and all that jazz
+        else:
+            log.warning('whatthediff.views:76: Form is not valid')
+            log.debug(form.errors)
+
+    else:
+        form = RegistrationForm()
+
+    return render_to_response("register.html", RequestContext(
+            request, 
+            {
+                'form': form, 
+            }
+        )
+    )
+

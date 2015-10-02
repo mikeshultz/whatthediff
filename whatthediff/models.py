@@ -30,6 +30,8 @@ class WhatTheUserManager(BaseUserManager):
 class WhatTheUser(AbstractBaseUser):
     """ Custom user model so we can use email as pk """
     #username = models.CharField("E-mail", max_length=128, help_text = "E-mail address")
+    first_name = models.CharField("First Name", max_length=128)
+    last_name = models.CharField("Last Name", max_length=128)
     email = models.EmailField("E-mail", unique=True, max_length=255, help_text = "E-mail address")
 
     USERNAME_FIELD = 'email'

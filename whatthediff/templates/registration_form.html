@@ -1,0 +1,32 @@
+            <form id="registration-form" class="uk-form uk-form-horizontal" method="post" action="{% url 'register' %}">
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="reg_firstname">First Name</label>
+                    <input type="text" id="reg_firstname" name="first_name" class="uk-form-large" placeholder="Joseph"{% if form.cleaned_data.first_name %} value="{{ form.cleaned_data.first_name }}" {% endif %}>
+                    {% spaceless %}{{ form.first_name.errors }}{% endspaceless %}
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="reg_lastname">Last Name</label>
+                    <input type="text" id="reg_lastname" name="last_name" class="uk-form-large" placeholder="Testman"{% if form.cleaned_data.last_name %} value="{{ form.cleaned_data.last_name }}" {% endif %}>
+                    {% spaceless %}{{ form.last_name.errors }}{% endspaceless %}
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="reg_email">E-mail</label>
+                    <input type="email" id="reg_email" name="email" class="uk-form-large" placeholder="joseph@example.com"{% if form.cleaned_data.email %} value="{{ form.cleaned_data.email }}" {% endif %}>
+                    {% spaceless %}{{ form.email.errors }}{% endspaceless %}
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="reg_password1">Password</label>
+                    <input type="password" id="reg_password1" name="password1" class="uk-form-large">
+                    {% spaceless %}{{ form.password1.errors }}{% endspaceless %}
+                </div>
+                <div class="uk-form-row">
+                    <label class="uk-form-label" for="reg_password2">Confirm</label>
+                    <input type="password" id="reg_password2" name="password2" class="uk-form-large">
+                    {% spaceless %}{{ form.password2.errors }}{% endspaceless %}
+                </div>
+                <div class="uk-form-row">
+                    <div class="uk-form-horizontal-pad">&nbsp;</div>
+                    {% csrf_token %}
+                    <button type="submit" class="uk-button uk-button-primary">Register</button>
+                </div>
+            </form>

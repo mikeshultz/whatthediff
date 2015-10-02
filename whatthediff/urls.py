@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^login', views.loginyo, name='login'),
     url(r'^logout', views.logoutyo, name='logout'),
+    url(r'^register', views.register, name='register'),
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^collection/', include(wtc_views)),
     url(r'^document/', include(wtd_views)),
