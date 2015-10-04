@@ -1,3 +1,5 @@
+import uuid
+from django.utils.translation import ugettext as _
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
 
@@ -40,3 +42,16 @@ class WhatTheUser(AbstractBaseUser):
 
     class Meta:
         db_table = u'whatthediff_user'
+
+class InviteToken(models.Model):
+    invitetoken_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField()
+    collection = models.ForeignKey('whatthecollection.Collection', null=True)
+    can_write = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _('Invite Token')
+        verbose_name_plural = _('Invite Tokens')
+
+    def __unicode__(self):
+        pass

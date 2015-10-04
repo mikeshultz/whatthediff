@@ -1,7 +1,10 @@
 from django.shortcuts import render_to_response, get_object_or_404, redirect
+from django.core.mail import send_mail
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 
+from whatthediff.models import InviteToken
 from .models import Collection, CollectionUser
 from .forms import CollectionForm, CollectionUserForm
 
@@ -98,23 +101,45 @@ def add_user_to_collection(request):
         if collection_id and email:
             collection_user = CollectionUser.objects.filter(user__email=email)
 
-            # Let's see if they already have an entry first
-            for cu in collection_user:
-                if cu.collection_id == collection_id:
-                    already_has_access = True
-                    break
+            if len(collection_user) > 0:
 
-            target_user = collection_user[0].user
+                # Let's see if they already have an entry first
+                for cu in collection_user:
+                    if cu.collection_id == collection_id:
+                        already_has_access = True
+                        break
 
-            if not already_has_access:
-                # user is not assigned, let's make sure they exist
-                if target_user.is_active:
-                    # Well, let's make the assignment
-                    collection = Collection.objects.get(pk=collection_id)
-                    new_cu = CollectionUser.objects.create(user=target_user, collection=collection, can_write=can_write)
-                else:
-                    # TODO: build a token and send out 
-                    raise NotImplementedError('Invitation token generation is not yet implemented.')
+                target_user = collection_user[0].user
+
+                if not already_has_access:
+                    # user is not assigned, let's make sure they exist
+                    if target_user.is_active:
+                        collection = Collection.objects.get(pk=collection_id)
+                        # Well, let's make the assignment
+                        new_cu = CollectionUser.objects.create(user=target_user, collection=collection, can_write=can_write)
+
+                    else:
+                        # TODO: We should do something for when the user 
+                        # exists but is inactive
+                        log.error('whatthecollection.views:121: User exists to be added to collection, but the usser is inactive.  *shrug*')
+
+            else:
+                # Get a token together and send out an invite
+                token = InviteToken.objects.create(email=email, collection_id=collection_id, can_write=can_write)
+
+                # Build the invite E_mail
+                subject = "You've been invited to WhatTheDiff"
+                msg_plain = render_to_string('email/invite.txt', {'subject': subject})
+                msg_html = render_to_string('email/invite.html', {'subject': subject})
+
+                #try:
+                send_mail(
+                    subject,
+                    msg_plain,
+                    'noreply@whattehdiff.com',
+                    [email, ],
+                    html_message=msg_html,
+                )
 
     return redirect('collection_list')
 

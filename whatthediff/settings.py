@@ -103,6 +103,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'whatthediff/templates',
+            'whatthecollection/templates',
             'whatthedoc/templates',
             'pagediff/templates',
         ],

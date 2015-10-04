@@ -2,11 +2,14 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from .models import WhatTheUser
 from .forms import RegistrationForm
 
 import logging
 log = logging.getLogger(__name__)
+
+class InvalidToken(ObjectDoesNotExist): pass
 
 def home(request):
     "Homepage"
@@ -90,4 +93,26 @@ def register(request):
             }
         )
     )
+
+def invite(request, token=None):
+    """ Deal with invites """
+    if not token:
+        raise NotImplementedError("You can't yet generate invites in this fashion.  Please add them to one of your collections, instead.")
+    else:
+        the_token = InviteToken.objects.get(invitetoken_id=token)
+
+        if not the_token:
+            raise InvalidToken('This is not a valid invite token, sorry.')
+
+        form = RegistrationForm()
+        # TODO: register the user
+        # TODO: grant rights to the collection they were invited to
+
+        return render_to_response("register.html", RequestContext(
+                request, 
+                {
+                    'form': form, 
+                }
+            )
+        )
 

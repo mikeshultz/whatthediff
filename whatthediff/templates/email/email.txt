@@ -1,0 +1,8 @@
+WhatTheDiff
+{{ subject }}
+----
+
+{% block content %}{% endblock %}
+
+----
+{% block footer %}You have received this E-mail because chosen to send it to you.  If this is an error, please E-mail abuse@whatthediff.com.{% endblock %}
