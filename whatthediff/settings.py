@@ -24,6 +24,7 @@ SECRET_KEY = 'mykf(5%81@*qpenf!0qc!!h9i#o$i9ewpzn!8#6n*t9+47da_q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+REGISTRATION_OPEN = True
 
 ALLOWED_HOSTS = []
 
@@ -112,6 +113,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'whatthediff.context.settings_context_processor',
             ],
         },
     },
