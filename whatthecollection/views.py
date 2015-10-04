@@ -129,8 +129,8 @@ def add_user_to_collection(request):
 
                 # Build the invite E_mail
                 subject = "You've been invited to WhatTheDiff"
-                msg_plain = render_to_string('email/invite.txt', {'subject': subject})
-                msg_html = render_to_string('email/invite.html', {'subject': subject})
+                msg_plain = render_to_string('email/invite.txt', {'token': str(token), 'subject': subject})
+                msg_html = render_to_string('email/invite.html', {'token': str(token), 'subject': subject})
 
                 #try:
                 send_mail(

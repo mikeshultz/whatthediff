@@ -2,5 +2,5 @@
 {% block content %}
 You have been invited WhatTheDiff and given {% if perms = 'rw' %}write{% else %}read{% endif %} permissions to the {{ collection.name }} document tracking collection.  
 
-To register for the site and begin using WhatTheDiff, go here: {% url 'invite' token.invite_token_id %}
+To register for the site and begin using WhatTheDiff, go here: {% url 'invite' token %}
 {% endblock %}
