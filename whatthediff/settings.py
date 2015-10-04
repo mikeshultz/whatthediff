@@ -137,6 +137,13 @@ DATABASES = {
     }
 }
 
+# E-mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = ''
+EMAIL_PORT = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
