@@ -3,7 +3,8 @@ from django.template import RequestContext
 from django.contrib.auth import authenticate, login, logout
 #from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from .models import WhatTheUser
+
+from .models import WhatTheUser, InviteToken
 from .forms import RegistrationForm
 
 import logging
@@ -94,12 +95,13 @@ def register(request):
         )
     )
 
-def invite(request, token=None):
+def invite(request, invitetoken_id=None):
     """ Deal with invites """
-    if not token:
+    if not invitetoken_id:
         raise NotImplementedError("You can't yet generate invites in this fashion.  Please add them to one of your collections, instead.")
     else:
-        the_token = InviteToken.objects.get(invitetoken_id=token)
+        log.debug('Invite with token: %s' % invitetoken_id)
+        the_token = InviteToken.objects.get(invitetoken_id=invitetoken_id)
 
         if not the_token:
             raise InvalidToken('This is not a valid invite token, sorry.')

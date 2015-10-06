@@ -1,6 +1,7 @@
 {% extends "email/email.html" %}
+{% url 'invite' token.invitetoken_id as invite_url %}
 {% block content %}
 <p>You have been invited WhatTheDiff and given {% if perms = 'rw' %}write{% else %}read{% endif %} permissions to the {{ collection.name }} document tracking collection.</p>
 
-<p>To register for the site and begin using WhatTheDiff, go here: {% url 'invite' token %}</p>
+<p>To register for the site and begin using WhatTheDiff, go here: <a href="https://{{ domain }}{% url 'invite' token.invitetoken_id %}">https://{{ domain }}{% url 'invite' token.invitetoken_id %}</a></p>
 {% endblock %}

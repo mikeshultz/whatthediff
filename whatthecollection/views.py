@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from whatthediff.models import InviteToken
 from .models import Collection, CollectionUser
@@ -126,17 +127,19 @@ def add_user_to_collection(request):
             else:
                 # Get a token together and send out an invite
                 token = InviteToken.objects.create(email=email, collection_id=collection_id, can_write=can_write)
+                log.info()
 
                 # Build the invite E_mail
                 subject = "You've been invited to WhatTheDiff"
-                msg_plain = render_to_string('email/invite.txt', {'token': str(token), 'subject': subject})
-                msg_html = render_to_string('email/invite.html', {'token': str(token), 'subject': subject})
+                print(render_to_string('email/invite.txt', {'domain': settings.DOMAIN, 'token': token, 'subject': subject}))
+                msg_plain = render_to_string('email/invite.txt', {'domain': settings.DOMAIN, 'token': token, 'subject': subject})
+                msg_html = render_to_string('email/invite.html', {'domain': settings.DOMAIN, 'token': token, 'subject': subject})
 
                 #try:
                 send_mail(
                     subject,
                     msg_plain,
-                    'noreply@whattehdiff.com',
+                    settings.EMAIL_SENDER,
                     [email, ],
                     html_message=msg_html,
                 )
