@@ -1,3 +1,4 @@
+VERSION = '0.1.0'
 """
 Django settings for whatthediff project.
 
@@ -15,6 +16,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+DOMAIN = 'change.me'  # only domain name, not URL
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -140,10 +142,11 @@ DATABASES = {
 # E-mail
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = ''
-EMAIL_PORT = ''
+EMAIL_PORT = '25'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
+EMAIL_SENDER = ''
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -163,4 +166,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/tmp/whatthediff.com/static/'
+STATIC_ROOT = '/tmp/whatthediff/static/'
