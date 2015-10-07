@@ -1,6 +1,7 @@
 beautifulsoup4==4.4.0
 Django==1.8.3
 django-markdown-deux==1.0.5
+django-tenants==1.0.3
 html2text==2015.6.21
 markdown2==2.3.0
 psycopg2==2.6.1
