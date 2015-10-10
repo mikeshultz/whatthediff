@@ -68,9 +68,10 @@ def web_document_list(request):
     collection_user = CollectionUser.objects.filter(user=request.user.id)
 
     if collection_id:
-        collection_user.filter(collection_id=collection_id)
+        log.debug('views.web_document_list:71: Filtering by collection_id = %s' % collection_id)
+        collection_user = collection_user.filter(collection_id=collection_id)
 
-    if collection_user:
+    if len(collection_user) > 0:
         docs = []
         for cu in collection_user:
             docs += WebDocument.objects.extra(
