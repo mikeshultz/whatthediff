@@ -15,6 +15,11 @@
             <a href="{% url 'web_document' d.web_document_id %}">
                 {% if d.title %}{{ d.title }}{% else %}<em>[no title]</em>{% endif %}
             </a>
+            <a href="{% url 'web_document_list' %}?collection_id={{ d.collection_id }}">
+                <div class="uk-badge{% if not d.collection.name %} badge-default{% endif %}">
+                    {% if d.collection.name %}{{ d.collection.name }}{% else %}Default{% endif %}
+                </div>
+            </a>
         </dt>
         <dd{% if today == d.latest|date:"Ymd" %} class="updated"{% endif %}>
             {{ d.url }}<br />

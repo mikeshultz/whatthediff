@@ -63,7 +63,12 @@ def web_document(request, web_document_id = None):
 def web_document_list(request):
     "Show documents in a list"
 
+    collection_id = request.GET.get('collection_id')
+
     collection_user = CollectionUser.objects.filter(user=request.user.id)
+
+    if collection_id:
+        collection_user.filter(collection_id=collection_id)
 
     if collection_user:
         docs = []
@@ -72,7 +77,7 @@ def web_document_list(request):
                 select = {
                     'latest': "SELECT created FROM whatthedoc_webdocumentbody swdb WHERE whatthedoc_webdocument.web_document_id = swdb.web_document_id ORDER BY created DESC LIMIT 1",
                 }
-            ).filter(collection=cu.collection).order_by('-latest')
+            ).select_related('collection').filter(collection_id=cu.collection_id).order_by('-latest')
     else:
         docs = None
 
