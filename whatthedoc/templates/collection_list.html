@@ -36,7 +36,7 @@
             <div class="clearfix marker"></div>
             <div class="js-show">
                 <div class="collection-name">
-                    <a href="{% url 'collection_list' %}?collection_id={{ c.collection_id }}">
+                    <a href="{% url 'web_document_list' %}?collection_id={{ c.collection_id }}">
                         {% if c.collection.name %}{{ c.collection.name }}{% else %}Default{% endif %}
                     </a>
                     <button class="uk-button uk-button-mini edit-collection-button">Edit <span class="uk-icon uk-icon-pencil"></span></button>
@@ -61,8 +61,8 @@
                             <input type="hidden" name="email" value="{{ cu.user.email }}">
                             <label for="perms" class="uk-margin-left">Permissions: 
                                 <select name="perms" class="uk-margin-left">
-                                    <option>Edit</option>
-                                    <option>Read Only</option>
+                                    <option value="rw"{% if cu.can_write %} selected="selected"{% endif %}>Edit</option>
+                                    <option value="ro"{% if not cu.can_write %} selected="selected"{% endif %}>Read Only</option>
                                 </select>
                             </label>
                         </td>
