@@ -28,6 +28,14 @@
     list-style: none;
 }
 
+footer {
+    margin: 0 auto;
+    text-align: center;
+    font-size: .85em;
+    line-height: 1em;
+    color: #CFCFCF;
+}
+
 dl.major-list {}
 dl.major-list dt {
     font-size: 150%;
@@ -78,7 +86,7 @@ dl.major-list dt.updated .marker {
 .edit-collection-form input[type=text] { 
     border-radius: 0;
     width: 15em;
-}
+} onclick="window.open(this.href); return false;"
 .edit-collection-form button { 
     border-radius: 0 0.5em 0.5em 0;
     position: relative;
