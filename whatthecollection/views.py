@@ -27,7 +27,7 @@ def new_collection(request):
             log.info('whatthcollection.views:20: Saved collection.')
 
             # Now, we need to associate this user to a collection
-            collection_user = CollectionUser.objects.create(user=request.user, collection=collection)
+            collection_user = CollectionUser.objects.create(user=request.user, collection=collection, can_write=True)
             collection_user.save()
             log.info('whatthcollection.views:20: Saved user assignment to collection.')
 
@@ -160,7 +160,8 @@ def collection_list(request):
         collection_user = CollectionUser.objects.create(
             collection = collection,
             user = request.user,
-            default = True
+            default = True,
+            can_write = True
         )
         collection_user = [collection_user, ]
 
