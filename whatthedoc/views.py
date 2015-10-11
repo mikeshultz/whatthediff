@@ -24,9 +24,14 @@ def new_web_document(request):
             #
             # TODO: Breakout collections a bit more for the user so other
             #       users can be given access to a collection.
-            collection_user = CollectionUser.objects.filter(user=request.user.id)[0]
-            log.debug('whatthedoc.views:27: Saving a document to collection %s.' % collection_user.collection_id)
-            form.instance.collection = collection_user.collection
+            collection_user = CollectionUser.objects.filter(user=request.user.id)
+
+            if form.cleaned_data.get('collection_id'):
+                log.info('whatthedoc.views:30: Filtering collections on collection_id of %s' % form.cleaned_data['collection_id'])
+                collection_user = collection_user.filter(collection_id=form.cleaned_data['collection_id'])
+
+            log.debug('whatthedoc.views:27: Saving a document to collection %s.' % collection_user[0].collection_id)
+            form.instance.collection = collection_user[0].collection
 
             form.user = request.user
             form.save()
