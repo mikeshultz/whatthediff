@@ -2,7 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>What The Diff?</title>
+    <title>{% if title %}{{ title }}{% else %}Web Document Tracking{% endif %} - What The Diff?</title>
+    <meta name="application-name" content="What The Diff">
+    <meta name="keywords" content="web,page,document,tracking,diff,difference,tracking,versioning,archive,content,text">
+    <meta name="description" content="What The Diff is a system for tracking changes to Web document content.">
+    <meta name="author" content="Mike Shultz <mike@mikes.network>">
+    <link rel="author" href="http://www.mikeshultz.com">
     <link rel="stylesheet" href="{% get_static_prefix %}uikit/css/uikit.css" />
     <link rel="stylesheet" href="{% get_static_prefix %}css/wtd.css" />
 </head>
