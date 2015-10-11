@@ -26,7 +26,16 @@
             <div id="add-document" class="hide">
                 <form class="uk-form" action="{% url 'new_web_document' %}" method="post">
                     <input class="uk-form-large" type="text" name="url" placeholder="http://domain.example/page.html">
-                    <input class="uk-form-large" type="text" name="title" placeholder="Welcome to My Page!">
+                    <!--<input class="uk-form-large" type="text" name="title" placeholder="Welcome to My Page!">-->
+                    {% if user_collections %}
+                    <select class="uk-form-large" name="collection_id">
+                    {% for cu in user_collections %}
+                        <option value="{{ cu.collection_id }}">{% if cu.collection.name %}{{ cu.collection.name }}{% else %}Default{% endif %}</option>
+                    {% endfor %}
+                    </select>
+                    {% else %}
+                    <a href="{% url 'collection_list' %}">Add Default Collection</a>
+                    {% endif %}
                     {% csrf_token %}
                     <button class="uk-button uk-button-primary">Add</button>
                 </form>
