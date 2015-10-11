@@ -52,7 +52,10 @@ def web_document(request, web_document_id = None):
     if document_body_id:
         revision = bodies.get(pk=document_body_id)
     else:
-        revision = bodies[0]
+        try:
+            revision = bodies[0]
+        except IndexError:
+            revision = None
 
     log.debug('whatthedoc.views:25: %s' % revision)
 
@@ -76,14 +79,17 @@ def web_document_list(request):
         log.debug('views.web_document_list:71: Filtering by collection_id = %s' % collection_id)
         collection_user = collection_user.filter(collection_id=collection_id)
 
+    collection_user_ids = []
     if len(collection_user) > 0:
-        docs = []
+        # Put the IDs into  a sequence for later use
         for cu in collection_user:
-            docs += WebDocument.objects.extra(
-                select = {
-                    'latest': "SELECT created FROM whatthedoc_webdocumentbody swdb WHERE whatthedoc_webdocument.web_document_id = swdb.web_document_id ORDER BY created DESC LIMIT 1",
-                }
-            ).select_related('collection').filter(collection_id=cu.collection_id).order_by('-latest')
+            collection_user_ids.append(cu.collection_id)
+
+        docs = WebDocument.objects.extra(
+            select = {
+                'latest': "SELECT created FROM whatthedoc_webdocumentbody swdb WHERE whatthedoc_webdocument.web_document_id = swdb.web_document_id ORDER BY created DESC LIMIT 1",
+            }
+        ).select_related('collection').filter(collection_id__in=collection_user_ids).order_by('-latest', '-modified', '-created')
     else:
         docs = None
 
