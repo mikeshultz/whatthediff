@@ -39,9 +39,12 @@ class WebDocument(models.Model):
 def create_web_document(sender, instance, created, **kwargs):
     "Need to handle some things when we first create a document."
     if created: 
-        if not instance.title:
-            instance.title = instance.url
         WebDocumentBody.objects.create(web_document = instance)
+
+        # If no title, let us pull one from the page itself
+        # see line 86
+        #if not instance.title:
+        #    instance.title = instance.url
     
 class WebDocumentBody(models.Model):
     document_body_id = models.AutoField(primary_key=True)
@@ -80,7 +83,7 @@ def create_web_document_body(sender, instance, **kwargs):
             logger.debug('whatthedoc.models:68: matches: %s' % matches)
             if matches == 0:
 
-                if not instance.web_document.title:
+                if http_doc.title:
                     instance.web_document.title = http_doc.title
 
                 if http_doc.response.getheader('Last-Modified'):
@@ -93,7 +96,7 @@ def create_web_document_body(sender, instance, **kwargs):
                 instance.body = http_doc.body.encode('utf-8')
                 instance.body_hash = body_hash
 
-                #instance.web_document.save()
+                instance.web_document.save()
 
                 # I don't think this is necessary(or wanted) in pre_save
                 #instance.save()
