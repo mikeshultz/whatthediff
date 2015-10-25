@@ -7,14 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('whatthecollection', '0002_collectionuser_default'),
+        ('whatthediff', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='collection',
-            name='name',
-            field=models.CharField(default='Default', max_length=256),
-            preserve_default=False,
+            model_name='whattheuser',
+            name='is_admin',
+            field=models.BooleanField(verbose_name='Is the user an admin?', default=False),
         ),
     ]

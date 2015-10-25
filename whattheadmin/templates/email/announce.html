@@ -1,0 +1,5 @@
+{% extends "email/email.html" %}
+{% block content %}
+{{ message|linebreaks }}
+{% endblock %}
+{% block footer %}<p>You are receiving this message because you are a registered user of What The Diff.</p>{% endblock %}

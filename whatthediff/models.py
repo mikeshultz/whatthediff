@@ -35,6 +35,7 @@ class WhatTheUser(AbstractBaseUser):
     first_name = models.CharField("First Name", max_length=128)
     last_name = models.CharField("Last Name", max_length=128)
     email = models.EmailField("E-mail", unique=True, max_length=255, help_text = "E-mail address")
+    is_admin = models.BooleanField("Is the user an admin?", default=False)
 
     USERNAME_FIELD = 'email'
 
@@ -42,6 +43,26 @@ class WhatTheUser(AbstractBaseUser):
 
     class Meta:
         db_table = u'whatthediff_user'
+
+    def get_full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    def get_short_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    @property
+    def is_superuser(self):
+        return self.is_admin
+
+    @property
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
 
 class InviteToken(models.Model):
     invitetoken_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
