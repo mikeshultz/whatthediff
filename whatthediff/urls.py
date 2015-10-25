@@ -4,6 +4,7 @@ from whatthediff import views
 from whatthecollection import urls as wtc_views
 from whatthedoc import urls as wtd_views
 from pagediff import urls as pd_views
+from whattheadmin import urls as wta_views
 
 urlpatterns = [
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
@@ -17,4 +18,5 @@ urlpatterns = [
     url(r'^collection/', include(wtc_views)),
     url(r'^document/', include(wtd_views)),
     url(r'^diff/', include(pd_views)),
+    url(r'^wta/', include(wta_views)),
 ]

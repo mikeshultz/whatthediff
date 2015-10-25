@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+    <h2 class="uk-article-title">Send E-mail</h2>
+    <div class="uk-article-meta">Send an E-mail to all What The Diff Users</div>
+
+    <hr class="uk-article-divider">
+
+    <div>
+        <form class="uk-form uk-form-stacked" method="post" action="">
+            <div class="uk-form-row">
+                <label class="uk-form-label">From</label>
+                <input type="text" class="uk-form-width-large" value="What The Diff <noreply@whatthediff.com>" disabled>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="email-subject">Subject</label>
+                <input type="text" class="uk-form-width-large" id="email-subject" name="subject" placeholder="This is an announcement!">
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="email-message">Message</label>
+                <textarea id="email-message" name="message" class="uk-form-width-large" rows="15"></textarea>
+            </div>
+            <div class="uk-form-row uk-form-controls">
+                {% csrf_token %}
+                <button class="uk-button uk-button-primary" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

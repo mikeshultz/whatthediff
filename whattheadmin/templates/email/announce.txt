@@ -1,0 +1,5 @@
+{% extends "email/email.txt" %}
+{% block content %}
+{{ message }}
+{% endblock %}
+{% block footer %}You are receiving this message because you are a registered user of What The Diff.{% endblock %}
