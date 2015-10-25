@@ -1,4 +1,3 @@
-VERSION = '0.0.1'
 """
 Django settings for whatthediff project.
 
@@ -66,18 +65,26 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'mailer': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
 
 # Application definition
 
 INSTALLED_APPS = (
+    'jet.dashboard',
+    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mailer',
     'markdown_deux',
     'whatthediff', 
     'whatthecollection',
@@ -108,15 +115,18 @@ TEMPLATES = [
             'whatthecollection/templates',
             'whatthedoc/templates',
             'pagediff/templates',
+            'whattheadmin/templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.core.context_processors.request', 
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'whatthediff.context.settings_context_processor',
+                'whatthecollection.context_processors.user_collections',
             ],
         },
     },
@@ -140,13 +150,15 @@ DATABASES = {
 }
 
 # E-mail
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "mailer.backend.DbBackend"
+MAILER_EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = ''
 EMAIL_PORT = '25'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 EMAIL_SENDER = ''
+DEFAULT_FROM_EMAIL = EMAIL_SENDER
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
