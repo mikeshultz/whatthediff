@@ -18,7 +18,8 @@ class FetchDocument(object):
     def _fetch(self):
         "Make the http request and store pertinent information"
 
-        self.response = urllib.request.urlopen(self.url)
+        req = urllib.request.Request(self.url, headers={'User-Agent' : "What The Diff/0.1"}) 
+        self.response = urllib.request.urlopen(req)
         self._raw = self.response.read().decode('utf-8')
         self._soup = BeautifulSoup(self._raw, 'html.parser')
         
