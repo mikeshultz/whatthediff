@@ -14,7 +14,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 class WebDocumentDuplicate(IntegrityError): pass
-class WebDocumentUnchanged(IntegrityError): pass
 
 class WebDocument(models.Model):
     web_document_id = models.AutoField(primary_key=True)
@@ -67,7 +66,6 @@ def create_web_document_body(sender, instance, **kwargs):
     "Need to handle some things when we first create a document."
 
     http_doc = FetchDocument(instance.web_document.url)
-    update = kwargs.get('update')
     #logger.debug('whatthedoc.models:55: Body: %s' % http_doc.body)
     
     if http_doc.body:
@@ -104,14 +102,8 @@ def create_web_document_body(sender, instance, **kwargs):
                 #instance.save()
 
             else:
-                if update:
-                    # this is a scheduled update and document has not been changed
-                    logger.info('whatthedoc.models:86: Document has not been changed.')
-                    raise WebDocumentUnchanged('Document has not been changed because we already have it in the database.')
-                else:
-                    # this is a new document for a user that is already 
-                    # in the system.
-                    raise WebDocumentDuplicate('Document is already in the system.')
+                logger.info('whatthedoc.models:86: Document has not been changed.')
+                raise WebDocumentDuplicate('Document has not been changed because we already have it in the database.')
         else:
             logger.error('whatthedoc.models:88: Document could not be hashed.')
             raise ValueError('Document could not be hashed.  May be empty.')
