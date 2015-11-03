@@ -42,6 +42,35 @@ def new_web_document(request):
     return render_to_response("new_web_document.html", RequestContext(request, {}))
 
 @login_required
+def move_web_document(request, web_document_id):
+    """ Move a document to a collection """
+
+    if request.POST:
+        if not request.POST.get('collection_id'):
+            # TODO: Deal with errors better
+            return redirect('web_document_list')
+
+        collections = CollectionUser.objects.filter(user_id = request.user.pk, collection_id = request.POST.get('collection_id'), can_write = True)
+
+        if len(collections) > 0:
+
+            document = WebDocument.objects.get(web_document_id = web_document_id)
+
+            if document:
+
+                document.collection = collections[0].collection
+                document.save()
+
+            else:
+                # TODO: Really need to show this to the user
+                log.error('whatthedoc.views:65: Document move, but document does not exist.')
+        else:
+            # TODO: Really need to show this to the user
+            log.error('whatthedoc.views:67: Document move, but there is no matching collection.')
+
+    return redirect('web_document_list')
+
+@login_required
 def web_document(request, web_document_id = None):
     "Display Document"
 

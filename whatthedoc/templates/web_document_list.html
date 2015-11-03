@@ -25,6 +25,20 @@
             {{ d.url }}<br />
             Last Modified: {% if d.http_last_modified %}{{ d.http_last_modified }}{% else %}{{ d.modified }}{% endif %}
         </dd>
+        <div class="uk-button-group">
+            <form class="uk-form" method="post" action="{% url 'move_web_document' d.web_document_id %}">
+                {% csrf_token %}
+                {% if user_collections %}
+                <select class="uk-form-small" name="collection_id">
+                    <option></option>
+                {% for cu in user_collections %}
+                    <option value="{{ cu.collection_id }}">{% if cu.collection.name %}{{ cu.collection.name }}{% else %}Default{% endif %}</option>
+                {% endfor %}
+                </select>
+                {% endif %}
+                <button class="hide js-show uk-button uk-button-primary uk-button-small .move-document-button">Move <span class="uk-icon uk-icon-exchange"></span></button>
+            </form>
+        </div>
     {% endfor %}
     </dl>
     <!--
