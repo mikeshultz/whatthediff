@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from .models import WebDocument, WebDocumentBody
+from .models import WebDocument, WebDocumentBody, WebDocumentDuplicate
 from .forms import WebDocumentForm
 from whatthecollection.models import CollectionUser
 
@@ -34,7 +34,12 @@ def new_web_document(request):
             form.instance.collection = collection_user[0].collection
 
             form.user = request.user
-            form.save()
+            try:
+                form.save()
+            except WebDocumentDuplicate:
+                log.error('whatthedoc.views:40: Document already exists in the system.')
+                raise WebDocumentDuplicate('Document already exists.')
+
             log.info('whatthedoc.views:21: Redirecting to %s.' % form.instance.get_absolute_url())
             return redirect(form.instance.get_absolute_url())
 
