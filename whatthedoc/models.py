@@ -50,7 +50,7 @@ class WebDocumentBody(models.Model):
     document_body_id = models.AutoField(primary_key=True)
     web_document = models.ForeignKey(WebDocument, null=False, related_name='bodies')
     body = models.TextField()
-    body_hash = models.CharField(unique=True, max_length=32)
+    body_hash = models.CharField(max_length=32)
 
     created = models.DateTimeField(auto_now_add=True)
 
@@ -79,7 +79,7 @@ def create_web_document_body(sender, instance, **kwargs):
         logger.debug('whatthedoc.models:64: body_hash: %s' % body_hash)
 
         if body_hash:
-            matches = WebDocumentBody.objects.filter(body_hash = body_hash).count()
+            matches = WebDocumentBody.objects.filter(body_hash = body_hash, web_document_id = instance.web_document_id).count()
             logger.debug('whatthedoc.models:68: matches: %s' % matches)
             if matches == 0:
 
